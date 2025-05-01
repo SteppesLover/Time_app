@@ -1,0 +1,81 @@
+Started GET "/" for 127.0.0.1 at 2025-04-04 00:03:15 -0700
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='TimeApp'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='TimeApp'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /home/green/.rbenv/versions/3.2.1/lib/ruby/gems/3.2.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/green/.rbenv/versions/3.2.1/lib/ruby/gems/3.2.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 37ms (Views: 5.9ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (5.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-04-04 07:24:46.680887', '2025-04-04 07:24:46.680890') RETURNING "key" /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='TimeApp'*/[0m
+Migrating to CreateUsers (20250404072416)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='TimeApp'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250404072416') RETURNING "version" /*application='TimeApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='TimeApp'*/[0m
+Migrating to CreateTimeEntries (20250404072417)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='TimeApp'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "time_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "activity_name" varchar, "duration_minutes" integer, "activity_date" date, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b471d1824b"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='TimeApp'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_time_entries_on_user_id" ON "time_entries" ("user_id") /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250404072417') RETURNING "version" /*application='TimeApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='TimeApp'*/[0m
+Migrating to CreateReports (20250404072418)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='TimeApp'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "time_period" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250404072418') RETURNING "version" /*application='TimeApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='TimeApp'*/[0m
+Migrating to CreateTimeEntryReports (20250404072419)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='TimeApp'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "time_entry_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_51c36f653c"
+FOREIGN KEY ("time_entry_id")
+  REFERENCES "time_entries" ("id")
+, CONSTRAINT "fk_rails_f91fd72796"
+FOREIGN KEY ("report_id")
+  REFERENCES "reports" ("id")
+) /*application='TimeApp'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_reports_on_time_entry_id" ON "time_entry_reports" ("time_entry_id") /*application='TimeApp'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_reports_on_report_id" ON "time_entry_reports" ("report_id") /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250404072419') RETURNING "version" /*application='TimeApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='TimeApp'*/[0m
+Migrating to CreateTimePlans (20250404072420)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='TimeApp'*/[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "time_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "time_period" datetime(6), "time_plan_amount" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_99136e4408"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+) /*application='TimeApp'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_plans_on_user_id" ON "time_plans" ("user_id") /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250404072420') RETURNING "version" /*application='TimeApp'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='TimeApp'*/[0m
+Migrating to CreateTimeEntryPlans (20250404072421)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='TimeApp'*/[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "time_entry_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "time_plan_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_71208c7bfb"
+FOREIGN KEY ("time_entry_id")
+  REFERENCES "time_entries" ("id")
+, CONSTRAINT "fk_rails_7dab6b2588"
+FOREIGN KEY ("time_plan_id")
+  REFERENCES "time_plans" ("id")
+) /*application='TimeApp'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_plans_on_time_entry_id" ON "time_entry_plans" ("time_entry_id") /*application='TimeApp'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_plans_on_time_plan_id" ON "time_entry_plans" ("time_plan_id") /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250404072421') RETURNING "version" /*application='TimeApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='TimeApp'*/[0m
+Migrating to CreateTimePlansReports (20250404072422)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='TimeApp'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "time_plans_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_plan_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_0c000d9b7c"
+FOREIGN KEY ("time_plan_id")
+  REFERENCES "time_plans" ("id")
+, CONSTRAINT "fk_rails_1a74a60df1"
+FOREIGN KEY ("report_id")
+  REFERENCES "reports" ("id")
+) /*application='TimeApp'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_time_plans_reports_on_time_plan_id" ON "time_plans_reports" ("time_plan_id") /*application='TimeApp'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_plans_reports_on_report_id" ON "time_plans_reports" ("report_id") /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250404072422') RETURNING "version" /*application='TimeApp'*/[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='TimeApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='TimeApp'*/[0m

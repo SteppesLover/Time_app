@@ -1,0 +1,261 @@
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "reports"[0m
+  [1m[35m (3.8ms)[0m  [1m[35mCREATE TABLE "reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "time_period" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "time_entries"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "time_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "activity_name" varchar, "duration_minutes" integer, "activity_date" date, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entries_on_user_id" ON "time_entries" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "time_entry_plans"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "time_entry_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "time_plan_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_plans_on_time_entry_id" ON "time_entry_plans" ("time_entry_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_plans_on_time_plan_id" ON "time_entry_plans" ("time_plan_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "time_entry_reports"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "time_entry_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_reports_on_report_id" ON "time_entry_reports" ("report_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_reports_on_time_entry_id" ON "time_entry_reports" ("time_entry_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "time_plans"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "time_period" datetime(6), "time_plan_amount" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_plans_on_user_id" ON "time_plans" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "time_plans_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_plans_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_plan_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_plans_reports_on_report_id" ON "time_plans_reports" ("report_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_plans_reports_on_time_plan_id" ON "time_plans_reports" ("time_plan_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atime_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "activity_name" varchar, "duration_minutes" integer, "activity_date" date, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entries_on_user_id" ON "atime_entries" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atime_entries" ("id","user_id","activity_name","duration_minutes","activity_date","created_at","updated_at")
+                     SELECT "id","user_id","activity_name","duration_minutes","activity_date","created_at","updated_at" FROM "time_entries"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "time_entries"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_entries" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "activity_name" varchar, "duration_minutes" integer, "activity_date" date, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b471d1824b"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entries_on_user_id" ON "time_entries" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "time_entries" ("id","user_id","activity_name","duration_minutes","activity_date","created_at","updated_at")
+                     SELECT "id","user_id","activity_name","duration_minutes","activity_date","created_at","updated_at" FROM "atime_entries"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atime_entries"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atime_entry_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "time_plan_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entry_plans_on_time_plan_id" ON "atime_entry_plans" ("time_plan_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entry_plans_on_time_entry_id" ON "atime_entry_plans" ("time_entry_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "atime_entry_plans" ("id","time_entry_id","time_plan_id","created_at","updated_at")
+                     SELECT "id","time_entry_id","time_plan_id","created_at","updated_at" FROM "time_entry_plans"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "time_entry_plans"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "time_entry_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "time_plan_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_71208c7bfb"
+FOREIGN KEY ("time_entry_id")
+  REFERENCES "time_entries" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_plans_on_time_entry_id" ON "time_entry_plans" ("time_entry_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_plans_on_time_plan_id" ON "time_entry_plans" ("time_plan_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "time_entry_plans" ("id","time_entry_id","time_plan_id","created_at","updated_at")
+                     SELECT "id","time_entry_id","time_plan_id","created_at","updated_at" FROM "atime_entry_plans"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atime_entry_plans"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atime_entry_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "time_plan_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entry_plans_on_time_plan_id" ON "atime_entry_plans" ("time_plan_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entry_plans_on_time_entry_id" ON "atime_entry_plans" ("time_entry_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atime_entry_plans" ("id","time_entry_id","time_plan_id","created_at","updated_at")
+                     SELECT "id","time_entry_id","time_plan_id","created_at","updated_at" FROM "time_entry_plans"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "time_entry_plans"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_entry_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "time_plan_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_71208c7bfb"
+FOREIGN KEY ("time_entry_id")
+  REFERENCES "time_entries" ("id")
+, CONSTRAINT "fk_rails_7dab6b2588"
+FOREIGN KEY ("time_plan_id")
+  REFERENCES "time_plans" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_plans_on_time_entry_id" ON "time_entry_plans" ("time_entry_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_plans_on_time_plan_id" ON "time_entry_plans" ("time_plan_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "time_entry_plans" ("id","time_entry_id","time_plan_id","created_at","updated_at")
+                     SELECT "id","time_entry_id","time_plan_id","created_at","updated_at" FROM "atime_entry_plans"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atime_entry_plans"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atime_entry_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entry_reports_on_time_entry_id" ON "atime_entry_reports" ("time_entry_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entry_reports_on_report_id" ON "atime_entry_reports" ("report_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atime_entry_reports" ("id","time_entry_id","report_id","created_at","updated_at")
+                     SELECT "id","time_entry_id","report_id","created_at","updated_at" FROM "time_entry_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "time_entry_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_entry_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_f91fd72796"
+FOREIGN KEY ("report_id")
+  REFERENCES "reports" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_reports_on_report_id" ON "time_entry_reports" ("report_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_time_entry_reports_on_time_entry_id" ON "time_entry_reports" ("time_entry_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "time_entry_reports" ("id","time_entry_id","report_id","created_at","updated_at")
+                     SELECT "id","time_entry_id","report_id","created_at","updated_at" FROM "atime_entry_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atime_entry_reports"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atime_entry_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entry_reports_on_time_entry_id" ON "atime_entry_reports" ("time_entry_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_entry_reports_on_report_id" ON "atime_entry_reports" ("report_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atime_entry_reports" ("id","time_entry_id","report_id","created_at","updated_at")
+                     SELECT "id","time_entry_id","report_id","created_at","updated_at" FROM "time_entry_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "time_entry_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_entry_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_entry_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_f91fd72796"
+FOREIGN KEY ("report_id")
+  REFERENCES "reports" ("id")
+, CONSTRAINT "fk_rails_51c36f653c"
+FOREIGN KEY ("time_entry_id")
+  REFERENCES "time_entries" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_time_entry_reports_on_report_id" ON "time_entry_reports" ("report_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_entry_reports_on_time_entry_id" ON "time_entry_reports" ("time_entry_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "time_entry_reports" ("id","time_entry_id","report_id","created_at","updated_at")
+                     SELECT "id","time_entry_id","report_id","created_at","updated_at" FROM "atime_entry_reports"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "atime_entry_reports"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atime_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "time_period" datetime(6), "time_plan_amount" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_plans_on_user_id" ON "atime_plans" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atime_plans" ("id","user_id","time_period","time_plan_amount","created_at","updated_at")
+                     SELECT "id","user_id","time_period","time_plan_amount","created_at","updated_at" FROM "time_plans"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "time_plans"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_plans" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "time_period" datetime(6), "time_plan_amount" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_99136e4408"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_plans_on_user_id" ON "time_plans" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "time_plans" ("id","user_id","time_period","time_plan_amount","created_at","updated_at")
+                     SELECT "id","user_id","time_period","time_plan_amount","created_at","updated_at" FROM "atime_plans"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "atime_plans"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atime_plans_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_plan_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_atime_plans_reports_on_time_plan_id" ON "atime_plans_reports" ("time_plan_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_atime_plans_reports_on_report_id" ON "atime_plans_reports" ("report_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atime_plans_reports" ("id","time_plan_id","report_id","created_at","updated_at")
+                     SELECT "id","time_plan_id","report_id","created_at","updated_at" FROM "time_plans_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "time_plans_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_plans_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_plan_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_1a74a60df1"
+FOREIGN KEY ("report_id")
+  REFERENCES "reports" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_time_plans_reports_on_report_id" ON "time_plans_reports" ("report_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_time_plans_reports_on_time_plan_id" ON "time_plans_reports" ("time_plan_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "time_plans_reports" ("id","time_plan_id","report_id","created_at","updated_at")
+                     SELECT "id","time_plan_id","report_id","created_at","updated_at" FROM "atime_plans_reports"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "atime_plans_reports"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atime_plans_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_plan_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_atime_plans_reports_on_time_plan_id" ON "atime_plans_reports" ("time_plan_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_atime_plans_reports_on_report_id" ON "atime_plans_reports" ("report_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "atime_plans_reports" ("id","time_plan_id","report_id","created_at","updated_at")
+                     SELECT "id","time_plan_id","report_id","created_at","updated_at" FROM "time_plans_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "time_plans_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "time_plans_reports" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "time_plan_id" integer NOT NULL, "report_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_1a74a60df1"
+FOREIGN KEY ("report_id")
+  REFERENCES "reports" ("id")
+, CONSTRAINT "fk_rails_0c000d9b7c"
+FOREIGN KEY ("time_plan_id")
+  REFERENCES "time_plans" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_time_plans_reports_on_report_id" ON "time_plans_reports" ("report_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_time_plans_reports_on_time_plan_id" ON "time_plans_reports" ("time_plan_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "time_plans_reports" ("id","time_plan_id","report_id","created_at","updated_at")
+                     SELECT "id","time_plan_id","report_id","created_at","updated_at" FROM "atime_plans_reports"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atime_plans_reports"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250404072422)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250404072421),
+(20250404072420),
+(20250404072419),
+(20250404072418),
+(20250404072417),
+(20250404072416);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2025-04-23 19:48:51.219368', '2025-04-23 19:48:51.219370') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '7708c1c610c810872183fbe3cc4136c4dd9b385d', '2025-04-23 19:48:51.221175', '2025-04-23 19:48:51.221177') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (1.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["name", "Chipper Roe"], ["email", "[FILTERED]"], ["created_at", "2025-04-23 20:03:21.944327"], ["updated_at", "2025-04-23 20:03:21.944327"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
