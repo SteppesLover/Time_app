@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Plan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+        table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 8px 12px;
+      text-align: center;
+    }
+
+    th {
+    }
+
+    td:first-child {
+      text-align: left;
+    }
+
+    .progress-container {
+      background-color: #333;
+      border-radius: 4px;
+      overflow: hidden;
+      height: 8px;
+      margin-top: 4px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background-color: #4caf50;
+    }
+
+    .plan-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .progress-bar-container {
+      margin-top: 1rem;
+    }
+
+    .label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .bar {
+      width: 100%;
+      background-color: #eee;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 20px;
+      background-color: #4CAF50;
+      text-align: right;
+      padding-right: 5px;
+      color: white;
+      line-height: 20px;
+      border-radius: 5px 0 0 5px;
+    }
+
+    .infographic {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .info-block {
+      width: 45%;
+      background-color: #fff;
+      padding: 1rem;
+      margin: 1rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .info-block h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1> Time Plan</h1>
+
+    <h2>All time spendings table </h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th> Time spendings</th>
+        <th> Plan </th>
+        <th> Actual</th>
+        <th> Percentage</th>
+        <th> Efficiency </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Routine</td>
+        <td>50</td>
+        <td>51</td>
+        <td>102%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 102%;"></div>
+          </div>
+        </td>
+      </tr>
+            <tr>
+        <td>Time loses</td>
+        <td>15</td>
+        <td>20</td>
+        <td>133%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 133%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>First tier work</td>
+        <td>30</td>
+        <td>25</td>
+        <td>83%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 83%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Second tier work</td>
+        <td>5</td>
+        <td>5</td>
+        <td>100%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 100%;"></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>First tier working table </h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th> First Tier Work</th>
+        <th> Plan </th>
+        <th> Actual</th>
+        <th> Percentage</th>
+        <th> Efficiency </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Work</td>
+        <td>100</td>
+        <td>29.08</td>
+        <td>29%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 29%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Study</td>
+        <td>57.25</td>
+        <td>0</td>
+        <td>0%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 0%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Coding</td>
+        <td>60</td>
+        <td>30.5</td>
+        <td>51%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 51%;"></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+    <h2>Second tier work table </h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th> Second Tier Work</th>
+        <th> Plan </th>
+        <th> Actual</th>
+        <th> Percentage</th>
+        <th> Efficiency </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bureaucracy</td>
+        <td>4</td>
+        <td>2</td>
+        <td>50%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 50%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Reading</td>
+        <td>24</td>
+        <td>8</td>
+        <td>33%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 33%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Sport</td>
+        <td>60</td>
+        <td>48</td>
+        <td>80%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 80%;"></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>
