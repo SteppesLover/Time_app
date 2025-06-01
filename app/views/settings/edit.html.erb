@@ -1,0 +1,20 @@
+<h2>Site Appearance Settings</h2>
+
+<%= form_with model: @setting, url: setting_path, method: :put do |f| %>
+  <div class="setting">
+    <%= f.label :theme %>
+    <%= f.select :theme, [['Light', 'light'], ['Dark', 'dark']], {}, class: "form-control" %>
+  </div>
+
+  <div class="setting">
+    <%= f.label :font %>
+    <%= f.select :font, ['Arial', 'Georgia', 'Courier New', 'Verdana'], {}, class: "form-control" %>
+  </div>
+
+  <div class="setting">
+    <%= f.label :font_size %>
+    <%= f.select :font_size, [['Small', '14px'], ['Normal', '16px'], ['Large', '18px'], ['X-Large', '20px']], {}, class: "form-control" %>
+  </div>
+
+  <%= f.submit "Save Settings", class: "button" %>
+<% end %>

@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
   resources :report
-  resources :time_entry
+  resources :time_entries
   resources :time_plan
   resources :time_plan_report
   resources :time_entry_plan
   resources :time_entry_report
   resources :user
-
+  resources :message
+  resource :setting
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

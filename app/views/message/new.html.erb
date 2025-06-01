@@ -1,0 +1,7 @@
+<h2 class="text-2xl font-semibold mb-4">New Message</h2>
+
+<%= turbo_frame_tag "new_message" do %>
+  <%= render "form", message: @message %>
+<% end %>
+
+<%= link_to "Back to list", messages_path, class: "mt-4 inline-block text-blue-500" %>

@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_04_072422) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_01_060207) do
+  create_table "messages", force: :cascade do |t|
+    t.string "time_spend_type"
+    t.string "activity"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reports", force: :cascade do |t|
     t.string "name"
     t.datetime "time_period"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "font"
+    t.string "font_size"
+    t.string "theme"
+    t.string "bg_color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -25,6 +44,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_04_072422) do
     t.date "activity_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.index ["user_id"], name: "index_time_entries_on_user_id"
   end
 

@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>2025 Таблица</title>
+  <meta charset="UTF-8" />
+  <title>2025 — Activity messages</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-    }
-
-    h2 {
-      margin-bottom: 1rem;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
@@ -22,6 +13,7 @@
       border: 1px solid #333;
       padding: 8px 12px;
       text-align: center;
+      white-space: nowrap;
     }
 
     .tag {
@@ -29,15 +21,32 @@
       padding: 2px 8px;
       border-radius: 6px;
       font-size: 0.9em;
-      white-space: nowrap;
     }
 
-    td {
-      white-space: nowrap;
+    .actions a, .actions form {
+      display: inline-block;
+      margin: 0 4px;
     }
-  </style>
-</head>
-<body>
+    <title>MyApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <style>
+      body {
+        background-color: <%= @setting&.theme == 'dark' ? '#222' : '#fff' %>;
+        color: <%= @setting&.theme == 'dark' ? '#f0f0f0' : '#000' %>;
+        font-family: <%= @setting&.font || 'Arial' %>;
+        font-size: <%= @setting&.font_size || '16px' %>;
+      }
+    </style>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
 
   <h2>2025 — Activity messages</h2>
 
@@ -48,46 +57,46 @@
         <th>Activity</th>
         <th>Begining date</th>
         <th>Ending date</th>
-        <th>∑</th>
+        <th>Duration (min)</th>
+        <th>Actions</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td><span class="tag project-time loses">time loses</span></td>
-        <td><span class="tag name-rest">Rest</span></td>
-        <td>11/05/2025 0:00</td>
-        <td>11/05/2025 0:10</td>
-        <td>10</td>
-      </tr>
-      <tr>
-        <td><span class="tag project-S.A.">S. A.</span></td>
-        <td><span class="tag name-Bureaucracy">Bureaucracy</span></td>
-        <td>11/05/2025 0:10</td>
-        <td>11/05/2025 0:25</td>
-        <td>15</td>
-      </tr>
-      <tr>
-        <td><span class="tag project-Routine">Routine</span></td>
-        <td><span class="tag name-sleep">sleep</span></td>
-        <td>11/05/2025 3:00</td>
-        <td>11/05/2025 12:25</td>
-        <td>565</td>
-      </tr>
-        <tr>
-        <td><span class="tag project-Routine">Routine</span></td>
-        <td><span class="tag name-worked">Traveled</span></td>
-        <td>11/05/2025 12:55</td>
-        <td>11/05/2025 14:55</td>
-        <td>120</td>
-      </tr>
-      <tr>
-        <td><span class="tag project-F.A.">F. A.</span></td>
-        <td><span class="tag name-worked">worked</span></td>
-        <td>11/05/2025 14:55</td>
-        <td>12/05/2025 0:00</td>
-        <td>545</td>
-      </tr>
+    <tbody id="messages">
+      <%= turbo_frame_tag "new_message" do %>
+        <%= render "form", message: Message.new %>
+      <% end %>
 
+      <% @messages.each do |message| %>
+        <%= turbo_frame_tag dom_id(message) do %>
+          <tr>
+            <td>
+              <span class="tag time_spend_type-<%= message.time_spend_type.parameterize(separator: '_') %>">
+                <%= message.time_spend_type %>
+              </span>
+            </td>
+            <td>
+              <span class="tag activity-<%= message.activity.parameterize(separator: '_') %>">
+                <%= message.activity %>
+              </span>
+            </td>
+            <td><%= message.start_time.strftime("%d/%m/%Y %H:%M") if message.start_time %></td>
+            <td><%= message.end_time.strftime("%d/%m/%Y %H:%M") if message.end_time %></td>
+            <td>
+              <% if message.start_time && message.end_time %>
+                <%= ((message.end_time - message.start_time) / 60).to_i %>
+              <% else %>
+                -
+              <% end %>
+            </td>
+            <td class="actions">
+              <%= link_to "Edit", edit_message_path(message), data: { turbo_frame: dom_id(message) }, class: "text-blue-500" %>
+              <%= button_to message_path(message), method: :delete, form: { data: { turbo_confirm: "Are you sure?" }, class: "inline" }, class: "text-red-500 ml-2" do %>
+                Delete
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
     </tbody>
   </table>
 

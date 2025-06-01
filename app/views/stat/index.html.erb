@@ -1,92 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>infographic</title>
+  <title>Статистика активности</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
       padding: 2rem;
     }
 
-    .chart-container {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      margin: 0 auto;
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
     }
 
-    svg {
-      transform: rotate(-90deg);
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
     }
 
-    .center-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 24px;
-      line-height: 1.2;
+    th, td {
+      border: 1px solid #333;
+      padding: 8px 12px;
+      text-align: center;
     }
 
-    .center-text small {
-      display: block;
-      font-size: 14px;
-      color: #aaa;
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.9em;
+      white-space: nowrap;
     }
 
-    .legend {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-      gap: 20px;
-      font-size: 14px;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .legend-color {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
+    td {
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
 
-  <h2>Chart</h2>
-  <div class="chart-container">
-    <svg width="300" height="300" viewBox="0 0 36 36">
-      <!-- Full circle for background -->
-      <circle r="15.9" cx="18" cy="18" fill="none" stroke="#222" stroke-width="4" />
+  <h2>Sum stat for Time Spendings</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Time Spend Type</th>
+        <th>∑ Minutes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @time_spendings.each do |type, total_minutes| %>
+        <tr>
+          <td><span class="tag project-<%= type.parameterize %>"><%= type %></span></td>
+          <td><%= total_minutes %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-      <!-- Segments -->
-      <circle r="15.9" cx="18" cy="18" fill="none" stroke="#3B82F6" stroke-width="4"
-        stroke-dasharray="5 95" stroke-dashoffset="0" />
-      <circle r="15.9" cx="18" cy="18" fill="none" stroke="#10B981" stroke-width="4"
-        stroke-dasharray="24 76" stroke-dashoffset="-5" />
-      <circle r="15.9" cx="18" cy="18" fill="none" stroke="#FACC15" stroke-width="4"
-        stroke-dasharray="46 54" stroke-dashoffset="-29" />
-      <circle r="15.9" cx="18" cy="18" fill="none" stroke="#EF4444" stroke-width="4"
-        stroke-dasharray="25 75" stroke-dashoffset="-75" />
-    </svg>
-
-    <div class="center-text">
-      20964<br><small>Total Formula</small>
-    </div>
-  </div>
-
-  <div class="legend">
-    <div class="legend-item"><div class="legend-color" style="background:#3B82F6"></div>Second Activities 10%</div>
-    <div class="legend-item"><div class="legend-color" style="background:#10B981"></div>First Activities 18.1%</div>
-    <div class="legend-item"><div class="legend-color" style="background:#FACC15"></div>Routine 47.7%</div>
-    <div class="legend-item"><div class="legend-color" style="background:#EF4444"></div>Time spendings 24.2%</div>
-  </div>
+  <h2>Sum stat for Activity</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Activity</th>
+        <th>∑ Minutes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @activities.each do |activity, total_minutes| %>
+        <tr>
+          <td><span class="tag name-<%= activity.downcase %>"><%= activity %></span></td>
+          <td><%= total_minutes %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 </body>
 </html>
