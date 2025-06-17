@@ -21,7 +21,20 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <%= yield %>
+<body>
+    <div class="header">
+      <nav class="navbar navbar-expand-lg d-flex justify-content-between align-items-end">
+        <div class="login-logout">
+          <% if session[:user_id] %>
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'logout-link nav-link', data: { confirm: 'Are you sure you want to log out?' } %>
+          <% else %>
+            <%= link_to 'Login', login_path, class: 'logout-link nav-link' %>
+          <% end %>
+        </div>
+      </nav>
+    </div>
+    <div class='container main-container'>
+      <%= yield %>
+    </div>
   </body>
 </html>

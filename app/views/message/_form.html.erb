@@ -1,0 +1,12 @@
+<%= form_with model: message, url: message_index_path, class: "space-y-4" do |form| %>
+  <tr>
+  <%= form_with(model: message, url: message_index_path, method: :post, data: { turbo_frame: "new_message" }, local: false) do |form| %>
+    <td><%= form.text_field :time_spend_type, class: "w-full" %></td>
+    <td><%= form.text_field :activity, class: "w-full" %></td>
+    <td><%= form.datetime_local_field :start_time, class: "w-full" %></td>
+    <td><%= form.datetime_local_field :end_time, class: "w-full" %></td>
+    <td>–</td>
+    <td><%= form.submit "Add", class: "text-green-600" %></td>
+  <% end %>
+  </tr>
+<% end %>
