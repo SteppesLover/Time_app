@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Editable Plan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h2 {
+      margin-top: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 8px 12px;
+      text-align: center;
+    }
+
+    td:first-child {
+      text-align: left;
+    }
+
+    input[type="number"] {
+      width: 70px;
+      padding: 4px;
+    }
+
+    .progress-container {
+      background-color: #333;
+      border-radius: 4px;
+      overflow: hidden;
+      height: 8px;
+      margin-top: 4px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background-color: #4caf50;
+    }
+  </style>
+</head>
+<body>
+  <h1>Time Plan</h1>
+
+  <h2>All time spendings table</h2>
+  <table id="plan-table">
+    <thead>
+      <tr>
+        <th>Time spendings</th>
+        <th>Plan</th>
+        <th>Actual</th>
+        <th>Percentage</th>
+        <th>Efficiency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Routine</td>
+        <td><input type="number" value="50" class="plan"></td>
+        <td><input type="number" value="51" class="actual"></td>
+        <td class="percentage">102%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 102%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Time loses</td>
+        <td><input type="number" value="15" class="plan"></td>
+        <td><input type="number" value="20" class="actual"></td>
+        <td class="percentage">133%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 133%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>First tier work</td>
+        <td><input type="number" value="30" class="plan"></td>
+        <td><input type="number" value="25" class="actual"></td>
+        <td class="percentage">83%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 83%;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Second tier work</td>
+        <td><input type="number" value="30" class="plan"></td>
+        <td><input type="number" value="25" class="actual"></td>
+        <td class="percentage">83%</td>
+        <td>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 83%;"></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function updateEfficiencies() {
+      document.querySelectorAll('#plan-table tbody tr').forEach(row => {
+        const planInput = row.querySelector('.plan');
+        const actualInput = row.querySelector('.actual');
+        const percentageCell = row.querySelector('.percentage');
+        const bar = row.querySelector('.progress-bar');
+
+        const plan = parseFloat(planInput.value) || 0;
+        const actual = parseFloat(actualInput.value) || 0;
+        const percent = plan > 0 ? (actual / plan * 100).toFixed(0) : 0;
+
+        percentageCell.textContent = `${percent}%`;
+        bar.style.width = `${Math.min(percent, 100)}%`;
+      });
+    }
+
+    document.querySelectorAll('.plan, .actual').forEach(input => {
+      input.addEventListener('input', updateEfficiencies);
+    });
+
+    // Initial calculation
+    updateEfficiencies();
+  </script>
+</body>
+</html>

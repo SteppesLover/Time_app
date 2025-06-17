@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Статистика активности</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 8px 12px;
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.9em;
+      white-space: nowrap;
+    }
+
+    td {
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Sum stat for Time Spendings</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Time Spend Type</th>
+        <th>∑ Minutes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @time_spendings.each do |type, total_minutes| %>
+        <tr>
+          <td><span class="tag project-<%= type.parameterize %>"><%= type %></span></td>
+          <td><%= total_minutes %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2>Sum stat for Activity</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Activity</th>
+        <th>∑ Minutes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @activities.each do |activity, total_minutes| %>
+        <tr>
+          <td><span class="tag name-<%= activity.downcase %>"><%= activity %></span></td>
+          <td><%= total_minutes %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</body>
+</html>
