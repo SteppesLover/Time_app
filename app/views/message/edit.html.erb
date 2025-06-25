@@ -1,0 +1,29 @@
+<%= form_with model: message, class: "space-y-4" do |form| %>
+  <div>
+    <%= form.label :time_spend_type, class: "block font-medium" %>
+    <%= form.text_field :time_spend_type, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+    <%= inline_error_for(:time_spend_type, message) %>
+  </div>
+
+  <div>
+    <%= form.label :activity, class: "block font-medium" %>
+    <%= form.text_field :activity, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+    <%= inline_error_for(:activity, message) %>
+  </div>
+
+  <div>
+    <%= form.label :start_time, class: "block font-medium" %>
+    <%= form.datetime_local_field :start_time, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+    <%= inline_error_for(:start_time, message) %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, class: "block font-medium" %>
+    <%= form.datetime_local_field :end_time, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+    <%= inline_error_for(:end_time, message) %>
+  </div>
+
+  <div>
+    <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  </div>
+<% end %>

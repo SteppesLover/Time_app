@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: <%= @setting.font || 'Arial' %>;
+      font-size: <%= @setting.font_size || '16px' %>;
+      background-color: <%= @setting.theme == 'dark' ? '#121212' : '#ffffff' %>;
+      color: <%= @setting.theme == 'dark' ? '#ffffff' : '#000000' %>;
+    }
+
+    .settings-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .setting {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      color: white;
+      background: #007BFF;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .section-title {
+      margin-top: 30px;
+      font-size: 18px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="settings-container">
+    <h2>Current Settings</h2>
+
+    <div class="setting">
+      <label>Theme:</label>
+      <div><%= @setting.theme&.capitalize || "Not set" %></div>
+    </div>
+
+    <div class="setting">
+      <label>Font:</label>
+      <div><%= @setting.font&.capitalize || "Not set" %></div>
+    </div>
+
+    <div class="setting">
+      <label>Font Size:</label>
+      <div><%= @setting.font_size&.capitalize || "Not set" %></div>
+    </div>
+
+    <%= link_to "Edit Settings", edit_setting_path, class: "button" %>
+  </div>
+
+</body>
+</html>

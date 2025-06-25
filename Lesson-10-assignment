@@ -1,0 +1,6 @@
+1. Deleted settings in views/main/index
+2. Updated app/controllers/MessageController
+3. Added and updated views/message _form.html.erb, edit.html.erb, index.html.erb, new.html.erb
+4. Created app/models message , settings
+5. Updated views/stat/index.html.erb
+6. Updated views/plan/index.html

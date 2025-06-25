@@ -1,0 +1,166 @@
+Mind Assignment:
+When was a time you got misinformation or bad advice? What happened? Also consider any time an artificial intelligence tool has given you bad/weird answers. Share about that experience here.
+Well. It quite a lot of times gives me bad answer because they always lack of context and my vision of "what should be done". Usually I just use AI as "suggestion" or place with ideas which I still need to make work
+What are some ‘clues’ that you use to help you assess whether a resource is applicable/trustworthy or not? What are some ways you can verify the information you got from AI was accurate/current?
+Well I always trying to use information. If it isn't works on my code I verifying information. Also sometimes it is not that way how I want to do some stuff.  
+What are some ways you’ll build on your information literacy either in your personal life or as a developer?
+I watch and read a lot of sources. My head still aking of reading tech info but I training to gain my "brain muscules"
+
+0. Created root to: "main#index"
+0. Created placeholders for "/app/views/message" and "/app/views/plan" and "/app/views/stat" 
+0. List of awailable routes:
+  Active routes now:
+  root(/)
+  /message
+  /login_scren
+  /settings
+  /plan
+  /stat
+
+1. Created test for main
+'require 'rails_helper' 
+
+RSpec.describe 'Main', type: :request do
+    describe 'GET /' do
+        it 'returns a 200 OK status' do
+        get '/'
+        expect(response).to have_http_status(:ok)
+        end
+      
+    it 'displays the message link' do
+        get '/'
+        expect(response.body).to include("http://localhost:3000/message/")
+    end
+
+    it 'displays the message link' do
+        get '/'
+        expect(response.body).to include("http://localhost:3000/stat/")
+    end
+
+    it 'displays the message link' do
+        get '/'
+        expect(response.body).to include("http://localhost:3000/plan/")
+    end
+
+    it 'displays the message link' do
+        get '/'
+        expect(response.body).to include("http://localhost:3000/settings/")
+    end
+
+          it 'displays the message link' do
+        get '/'
+        expect(response.body).to include("http://localhost:3000/login_screen/")
+    end
+    end
+end'
+
+2. Created test for login_screen, but I didn't make functional to test email and password. 
+require 'rails_helper' 
+
+RSpec.describe 'Login_screen', type: :request do
+    describe 'get /login_screen' do
+        it 'returns a 200 OK status' do
+        get "/login_screen"
+        expect(response).to have_http_status(:ok)
+        end
+
+
+        it 'sing in button works' do
+            get "/login_screen"
+            expect(response.body).to include('Sign In') 
+        end
+      
+#        it 'fill login - no password' do
+#        end
+      
+#        it 'fill password - no login' do
+#        end
+      
+#        it 'fill password and login' do
+ #       end
+    end
+end
+
+3. Created test for plan
+require 'rails_helper' 
+
+RSpec.describe 'Plan', type: :request do
+    describe 'get /plan' do
+        it 'returns a 200 OK status' do
+        # Send a GET request to the dashboard route
+        get "/plan"
+      
+        # Check that the response status is 200 (OK)
+        expect(response).to have_http_status(:ok)
+        end
+      
+        it 'list of plans' do
+            get '/plan'
+            expect(response.body).to include("Time Plan")
+        end
+
+    end
+end
+
+4. Created test for message
+require 'rails_helper' 
+
+RSpec.describe 'Messange', type: :request do
+    describe 'get /message' do
+        it 'returns a 200 OK status' do
+        # Send a GET request to the dashboard route
+        get "/message"
+      
+        # Check that the response status is 200 (OK)
+        expect(response).to have_http_status(:ok)
+        end
+        
+        it 'list of plans' do
+            get '/message'
+            expect(response.body).to include("2025")
+        end
+
+    end
+end
+
+5. Created test for stat 
+require 'rails_helper' 
+
+RSpec.describe 'Stat', type: :request do
+    describe 'get /stat' do
+        it 'returns a 200 OK status' do
+        # Send a GET request to the dashboard route
+        get "/stat"
+      
+        # Check that the response status is 200 (OK)
+        expect(response).to have_http_status(:ok)
+        end
+      
+        it 'list of plans' do
+            get '/stat'
+            expect(response.body).to include("infographic")
+        end
+    end
+end
+
+6. Created test for settings
+
+require 'rails_helper'
+
+RSpec.describe 'Settings Page', type: :request do
+  describe 'GET /settings' do
+    it 'returns HTTP 200 OK' do
+      get '/settings'
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'displays the settings form' do
+      get '/settings'
+      expect(response.body).to include('Username')
+      expect(response.body).to include('Email Address')
+      expect(response.body).to include('Theme')
+      expect(response.body).to include('Enable Notifications')
+      expect(response.body).to include('Save Settings')
+    end
+  end
+end
